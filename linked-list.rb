@@ -4,16 +4,16 @@ class LinkedList
   end
   def append(value)
     if !@head
-      @head = Node.new(value, nil)
+      @head = Node.new(value)
     else
-       tail =  Node.new(value, nil)
-       node = tail()
-       node.next_node = tail
+       old_tail = tail()
+       new_tail =  Node.new(value)
+       old_tail.next_node = new_tail
     end
   end 
   def prepend(value)
     if !@head
-      @head = Node.new(value, nil)
+      @head = Node.new(value)
     else
       node = Node.new(value, @head)
       @head = node
@@ -32,25 +32,23 @@ class LinkedList
     @head
   end
   def tail()
-    tail = @head
-    while tail.next_node != nil
-      tail = tail.next_node
+    node = @head
+    while node.next_node != nil
+      node = node.next_node
     end
-    tail
+    node
   end
   def at(index)
     node = @head
     for i in 0...index
-      return nil if node.next_node == nil
       node = node.next_node
     end
     node
   end
   def pop
+    return nil if !@head
     node = @head
     deleted = false
-    return nil if !node
-
     while deleted == false 
       if node.next_node.next_node == nil
         node.next_node = nil
@@ -68,34 +66,32 @@ class LinkedList
     false
   end
   def find(value)
-  node = @head
-  i = 0
-  while node
-    return i if node.value == value
-    node = node.next_node
-    i += 1
-  end
-  nil
+    node = @head
+    i = 0
+    while node
+      return i if node.value == value
+      node = node.next_node
+      i += 1
+    end
+    nil
   end
   def insert_at(value, index)
-  if index == 0
-    prepend(value)
-  elsif index == size-1
-    append(value)
-  else
-    node_after = at(index)
-    node_before = at(index-1)
-    node = Node.new(value, node_after)
-    node_before.next_node = node
-    puts "before #{node_before.value} current #{node.value} after #{node_after.value} "
+    if index == 0
+      prepend(value)
+    elsif index == size-1
+      append(value)
+    else
+      node = Node.new(value, at(index))
+      at(index-1).next_node = node
+    end
   end
-end
   def remove_at(index)
     if index == 0
       @head = @head.next_node 
       return nil
+    else
+      at(index-1).next_node = at(index+1)
     end
-    at(index-1).next_node = at(index+1)
   end
   def to_s
     node = @head
@@ -103,7 +99,7 @@ end
       print "( #{node.value} ) -> "
       node = node.next_node
     end
-    print "nil"
+    print "nil\n"
   end
 end
 
@@ -119,4 +115,6 @@ list.append("H")
 list.append("E")
 list.append("A")
 list.append("P")
+list.to_s
+list.remove_at(0)
 list.to_s
