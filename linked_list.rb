@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Here are all the functions for my list stored.
 class LinkedList
   attr_reader :head
   def initialize
@@ -99,7 +102,7 @@ class LinkedList
       at(index - 1).next_node = at(index + 1)
     end
   end
-  
+
   def to_s
     node = @head
     while node
@@ -110,6 +113,7 @@ class LinkedList
   end
 end
 
+# This is a node class, used to hold values.
 class Node
   attr_accessor :value, :next_node
 
